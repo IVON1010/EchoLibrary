@@ -49,4 +49,19 @@ class InventoryResource(Resource):
 
         return {"message": "Inventory deleted successfully"}, 204
     
+    def put(self, id):
+        inventory = Inventory.query.filter_by(id=id).first()
+
+        if inventory is None:
+            return {"message": "inventory not found"}, 404
+        
+        data = InventoryResource.parser.parse_args()
+
+        # inventory.book_id = data['book_id']
+        inventory.current_stock = data['current_stock']
+
+        db.session.commit()
+
+        return {"message": "Inventory updated successfully"}, 200
+    
     
