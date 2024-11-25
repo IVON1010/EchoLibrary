@@ -19,4 +19,22 @@ class InventoryResource(Resource):
         else:
             inventories = Inventory.query.all()
             return [inventory.as_dict() for inventory in inventories]
+        
+    
+    def post(self):
+        data = InventoryResource.parser.parse_args()
+
+        book_id = Inventory.query.filter_by(book_id = data['book_id']).first()
+
+        if book_id:
+            return { "message": "Book_id already exists"}, 422
+
+        inventory = Inventory(**data)
+
+        db.session.add(inventory)
+
+        db.session.commit()
+
+        return {"message": "Inventory created successfully"}, 201
+    
     
