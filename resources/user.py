@@ -67,7 +67,7 @@ class UserResource(Resource):
         user.name = data['name']
         user.username = data['username']
         user.email = data['email']
-        user.password = data['password']
+        user.password = generate_password_hash(data['password']).decode('utf-8')
 
         db.session.commit()
 
@@ -90,12 +90,8 @@ class LoginResource(Resource):
         # 2. check if user exists
         if user:
             # 3. password verification
-            is_password_match = user.check_password(data['password'])
-
-            if is_password_match:
-                pass
-            else:
-                return {"message": "Invalid password/email", "status": "fail"}, 403
+            if check_password_hash(user.password, data['password']):
+                return 
             
         else:
             return {"message": "Invalid password/email", 'status': "fail"}, 403
