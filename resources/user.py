@@ -98,6 +98,8 @@ class SignupResource(Resource):
         user = User(**data)
         db.session.add(user)
         db.session.commit()
+
+        return {"message": "Signup successful", "status": "success", "user": user.to_dict()}, 201
     
 
 class LoginResource(Resource):
