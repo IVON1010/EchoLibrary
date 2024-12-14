@@ -83,6 +83,21 @@ class SignupResource(Resource):
 
     def post():
         data = SignupResource.parser.parse_args()
+
+        #password hash
+        data['password'] = generate_password_hash(data['password']).decode('utf-8')
+
+        #check if email or username exists
+        if User.query.filter_by(email=data['email']).first():
+            return {"message": "Email already exists", "status": "fail"}, 422
+        
+        if User.query.filter_by(username=data['username']).first():
+            return {"message": "Username already exists", "status": "fail"}, 422
+        
+        #user creation
+        user = User(**data)
+        db.session.add(user)
+        db.session.commit()
     
 
 class LoginResource(Resource):
@@ -93,7 +108,7 @@ class LoginResource(Resource):
     def post(self):
         data = LoginResource.parser.parse_args()
 
-        print(data)
+        #print(data)
 
         # 1. Try to retrieve user with provided email
         user = User.query.filter_by(email = data['email']).first()
