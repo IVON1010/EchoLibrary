@@ -31,7 +31,7 @@ class UserResource(Resource):
 
         data['password'] = generate_password_hash(data['password']).decode('utf-8')
 
-        print(data)
+        #print(data)
 
         # ensure email eixst
         email = User.query.filter_by(email=data['email']).first()
@@ -74,34 +74,6 @@ class UserResource(Resource):
         return {"message": "User successfully updated"}
     
 
-class SignupResource(Resource):
-    parser = reqparse.RequestParser()
-    parser.add_argument('name', required=True, help='Name is required')
-    parser.add_argument('username', required=True, help='Username is required')
-    parser.add_argument('email', required=True, help='Email is required')
-    parser.add_argument('password', required=True, help='Password is required')
-
-    def post():
-        data = SignupResource.parser.parse_args()
-
-        #password hash
-        data['password'] = generate_password_hash(data['password']).decode('utf-8')
-
-        #check if email or username exists
-        if User.query.filter_by(email=data['email']).first():
-            return {"message": "Email already exists", "status": "fail"}, 422
-        
-        if User.query.filter_by(username=data['username']).first():
-            return {"message": "Username already exists", "status": "fail"}, 422
-        
-        #user creation
-        user = User(**data)
-        db.session.add(user)
-        db.session.commit()
-
-        return {"message": "Signup successful", "status": "success", "user": user.to_dict()}, 201
-    
-
 class LoginResource(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('email', required=True, help='email is required')
@@ -125,3 +97,33 @@ class LoginResource(Resource):
             
         else:
             return {"message": "Invalid password/email", 'status': "fail"}, 403
+        
+
+
+class SignupResource(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument('name', required=True, help='name is required')
+    parser.add_argument('username', required=True, help='username is required')
+    parser.add_argument('email', required=True, help='email is required')
+    parser.add_argument('password', required=True, help='password is required')
+
+    def post():
+        data = SignupResource.parser.parse_args()
+
+        #password hash
+        data['password'] = generate_password_hash(data['password']).decode('utf-8')
+
+        #check if email or username exists
+        if User.query.filter_by(email=data['email']).first():
+            return {"message": "Email already exists", "status": "fail"}, 422
+        
+        if User.query.filter_by(username=data['username']).first():
+            return {"message": "Username already exists", "status": "fail"}, 422
+        
+        #user creation
+        user = User(**data)
+        db.session.add(user)
+        db.session.commit()
+
+        return {"message": "Signup successful", "status": "success", "user": user.to_dict()}, 201
+    

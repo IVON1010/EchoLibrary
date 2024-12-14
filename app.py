@@ -9,6 +9,7 @@ from resources.inventory import InventoryResource
 from resources.record import RecordResource
 from resources.user import UserResource
 from resources.user import LoginResource
+from resources.user import SignupResource
 
 
 app = Flask(__name__)
@@ -29,6 +30,7 @@ class HelloWorld(Resource):
     
 api.add_resource(HelloWorld, '/')
 api.add_resource(LoginResource, '/login')
+api.add_resource(SignupResource, '/signup')
 api.add_resource(BookResource, '/books', '/book/<int:id>')
 api.add_resource(InventoryResource, '/inventories', '/inventory/<int:id>')
 api.add_resource(RecordResource, '/records', '/record/<int:id>')
