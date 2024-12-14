@@ -1,6 +1,6 @@
 from models import db, User
 from flask_restful import Resource, reqparse
-from flask_bcrypt import generate_password_hash
+from flask_bcrypt import generate_password_hash, check_password_hash
 
 class UserResource(Resource):
     parser = reqparse.RequestParser()
