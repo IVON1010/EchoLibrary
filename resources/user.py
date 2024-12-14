@@ -29,7 +29,7 @@ class UserResource(Resource):
 
         #print(generate_password_hash(data['password']))
 
-        data['password'] = generate_password_hash(data['password'])
+        data['password'] = generate_password_hash(data['password']).decode('utf-8')
 
         print(data)
 
