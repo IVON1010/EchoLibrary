@@ -42,6 +42,8 @@ class User(db.Model, SerializerMixin):
             # 'penalties': [penalty.as_dict() for penalty in self.penalties],
             'school_fees': [school_fee.as_dict() for school_fee in self.school_fees]
         }
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
 
 class Book(db.Model, SerializerMixin):
     __tablename__ = 'books'

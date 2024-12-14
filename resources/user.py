@@ -91,7 +91,9 @@ class LoginResource(Resource):
         if user:
             # 3. password verification
             if check_password_hash(user.password, data['password']):
-                return 
+                return {"message": "Login Successful", "status": "Success", "user": user.to_dict()}, 200
+            else:
+                {"message": "Invalid email/password", "status": "fail"}, 403
             
         else:
             return {"message": "Invalid password/email", 'status': "fail"}, 403
