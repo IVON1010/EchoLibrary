@@ -74,6 +74,17 @@ class UserResource(Resource):
         return {"message": "User successfully updated"}
     
 
+class SignupResource(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument('name', required=True, help='Name is required')
+    parser.add_argument('username', required=True, help='Username is required')
+    parser.add_argument('email', required=True, help='Email is required')
+    parser.add_argument('password', required=True, help='Password is required')
+
+    def post():
+        data = SignupResource.parser.parse_args()
+    
+
 class LoginResource(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('email', required=True, help='email is required')
