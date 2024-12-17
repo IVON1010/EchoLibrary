@@ -2,6 +2,7 @@ from models import db, User
 from flask_restful import Resource, reqparse
 from flask_bcrypt import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
+from datetime import timedelta
 
 class UserResource(Resource):
     parser = reqparse.RequestParser()
@@ -94,7 +95,14 @@ class LoginResource(Resource):
         if user:
             # 3. password verification
             if check_password_hash(user.password, data['password']):
-                return {"message": "Login Successful", "status": "Success", "user": user.to_dict()}, 200
+                access_token =create_access_token(identity=user.id, expires_delta=timedelta(hours=1))
+                return {
+                    "message": "Login Successful",
+                    "status": "success",
+                    "access_token": access_token,
+                    "user": user.to_dict()
+                }, 200
+                #return {"message": "Login Successful", "status": "Success", "user": user.to_dict()}, 200
             else:
                 {"message": "Invalid email/password", "status": "fail"}, 403
             
