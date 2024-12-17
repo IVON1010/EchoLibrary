@@ -11,6 +11,7 @@ flask-migrate = "*"
 sqlalchemy-serializer = "*"
 flask-restful = "*"
 flask-bcrypt = "*"
+paystackapi = "*"
 flask-jwt-extended = "*"
 
 [dev-packages]

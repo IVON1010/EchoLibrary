@@ -1,6 +1,7 @@
 from models import db, User
 from flask_restful import Resource, reqparse
 from flask_bcrypt import generate_password_hash, check_password_hash
+from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 
 class UserResource(Resource):
     parser = reqparse.RequestParser()
@@ -9,7 +10,7 @@ class UserResource(Resource):
     parser.add_argument('email', required=True, help='email is required')
     parser.add_argument('password', required=True, help='password is required')
 
-
+    @jwt_required()
     def get(self, id=None):
         if id:
             user = User.query.filter_by(id=id).first()
@@ -23,7 +24,7 @@ class UserResource(Resource):
             users = User.query.all()
             return [user.as_dict() for user in users], 200
         
-
+    @jwt_required()
     def post(self):
         data = UserResource.parser.parse_args()
 
@@ -45,6 +46,7 @@ class UserResource(Resource):
 
         return { "message": "user created successfully", "status": "success", "user": user.to_dict()}, 201
     
+    @jwt_required()
     def delete(self, id):
         user = User.query.filter_by(id=id).first()
 
@@ -56,6 +58,7 @@ class UserResource(Resource):
 
         return {"message": "User deleted successfully"}, 204
     
+    @jwt_required()
     def put(self, id):
         user = User.query.filter_by(id=id).first()
 
@@ -97,4 +100,14 @@ class LoginResource(Resource):
             
         else:
             return {"message": "Invalid password/email", 'status': "fail"}, 403
+        
+    @jwt_required()
+    def get(self, id=None):
+        current_user_id = get_jwt_identity()
+        user = User.query.get(current_user_id)
+
+        if user:
+            {"message": "User profile fetched successfully", "status": "success", "user": user.to_dict()}, 200
+        else:
+            {"message": "User not found", "status": "fail"}, 404
         
