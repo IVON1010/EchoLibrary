@@ -102,7 +102,6 @@ class LoginResource(Resource):
                     "access_token": access_token,
                     "user": user.to_dict()
                 }, 200
-                #return {"message": "Login Successful", "status": "Success", "user": user.to_dict()}, 200
             else:
                 {"message": "Invalid email/password", "status": "fail"}, 403
             
