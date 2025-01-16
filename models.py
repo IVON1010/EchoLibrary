@@ -18,11 +18,11 @@ class User(db.Model, SerializerMixin):
     password = db.Column(db.String)
 
     # Exclude relationships to avoid recursion
-    serialize_rules = ('-password', '-records.user', '-payments.user', '-school_fees.user')
+    serialize_rules = ('-password', '-records.user', '-payments.user')
 
     records = db.relationship('Record', back_populates='user', lazy='dynamic')
     payments = db.relationship('Payment', back_populates='user', lazy='dynamic')
-    school_fees = db.relationship('SchoolFees', back_populates='user', lazy='dynamic')
+    #school_fees = db.relationship('SchoolFees', back_populates='user', lazy='dynamic')
 
     def check_password(self, plain_password):
         return check_password_hash(self.password, plain_password)
