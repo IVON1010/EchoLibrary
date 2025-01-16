@@ -5,8 +5,8 @@ from paystackapi.paystack import Paystack
 import os
 
 
-PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY", "sk_test_fd04b278f954772e66ae6e0b1e93914d7f0de3bd")
-paystack = Paystack(secret_key=PAYSTACK_SECRET_KEY)
+#PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY", "sk_test_fd04b278f954772e66ae6e0b1e93914d7f0de3bd")
+#paystack = Paystack(secret_key=PAYSTACK_SECRET_KEY)
 
 
 class PaymentResource(Resource):
