@@ -37,7 +37,7 @@ class User(db.Model, SerializerMixin):
         if include_relations:
             data['records'] = [record.as_dict() for record in self.records.all()]
             data['payments'] = [payment.as_dict() for payment in self.payments.all()]
-            data['school_fees'] = [school_fee.as_dict() for school_fee in self.school_fees.all()]
+            #data['school_fees'] = [school_fee.as_dict() for school_fee in self.school_fees.all()]
         return data
 
 
@@ -129,7 +129,7 @@ class Payment(db.Model, SerializerMixin):
             'payment_date': self.payment_date.strftime('%Y-%m-%d') if self.payment_date else None
         }
 
-class SchoolFees(db.Model, SerializerMixin):
+'''class SchoolFees(db.Model, SerializerMixin):
     __tablename__ = 'school_fees'
     id = db.Column(db.Integer, primary_key=True)
     amount = db.Column(db.Integer, nullable=False)
@@ -144,7 +144,7 @@ class SchoolFees(db.Model, SerializerMixin):
             'amount': self.amount,
             'status': self.status,
             'user_id': self.user_id
-        }
+        }'''
 
 class Inventory(db.Model, SerializerMixin):
     __tablename__ = 'inventories'
