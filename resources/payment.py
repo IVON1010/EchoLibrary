@@ -70,7 +70,7 @@ class PaymentResource(Resource):
 
 
 
-class PaymentResource(Resource):
+'''class PaymentResource(Resource):
     # Parser for payment details
     parser = reqparse.RequestParser()
     parser.add_argument('user_id', required=True, type=int, help='user_id is required')
@@ -117,4 +117,4 @@ class PaymentResource(Resource):
                 return {"message": "Payment verification failed", "error": response['message']}, 400
 
         except Exception as e:
-            return {"message": "An error occurred during payment verification", "error": str(e)}, 500
+            return {"message": "An error occurred during payment verification", "error": str(e)}, 500'''
