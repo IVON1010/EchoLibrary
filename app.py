@@ -1,3 +1,4 @@
+import os
 from models import db
 from flask import Flask
 from flask_migrate import Migrate
@@ -21,7 +22,7 @@ api = Api(app)
 bcrypt = Bcrypt(app)
 CORS(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///library.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///library.db')
 app.config["JWT_SECRET_KEY"] = "super-secret" 
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=24)
 # app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
